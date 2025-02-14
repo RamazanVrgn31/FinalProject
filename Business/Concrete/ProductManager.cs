@@ -54,7 +54,7 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length>2)
+            if (product.ProductName.Length<2)
             {
                 return new ErrorResult(Messages.ProductNameInvalid);
             }
