@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConserns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 
 namespace Business.Concrete
 {
@@ -52,13 +56,10 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>( _productDal.Get(p => p.ProductId == productId));
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length<2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
-
+            //ValidationTool.Validate(new ProductValidator(), product);
             _productDal.Add(product);
 
             //Sadece başarılı ise.
