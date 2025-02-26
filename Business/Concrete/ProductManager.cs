@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Castle.Components.DictionaryAdapter;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConserns.Validation;
 using Core.Utilities.Business;
@@ -62,6 +64,8 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>( _productDal.Get(p => p.ProductId == productId));
         }
 
+
+        [SecuredOperation("product.add,admin")]
         //[ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
