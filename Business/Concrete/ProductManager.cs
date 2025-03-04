@@ -64,6 +64,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>( _productDal.GetProductDetails());
         }
 
+
         [CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
@@ -71,8 +72,8 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("product.add,admin")]
-        //[ValidationAspect(typeof(ProductValidator))]
+        //[SecuredOperation("product.add,admin")]
+        [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {

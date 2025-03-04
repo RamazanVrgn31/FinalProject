@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
@@ -19,11 +20,11 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
-
+        
         [HttpGet("getall")]
         public IActionResult Get()
         {
-           
+           Thread.Sleep(1000);
             var result = _productService.GetAll();
             if (result.Success)
             {
@@ -36,6 +37,30 @@ namespace WebAPI.Controllers
         {
 
             var result = _productService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycategory")]
+        public IActionResult GetByCategory(int categoryId)
+        {
+
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getproductdetails")]
+        public IActionResult GetProductDetails()
+        {
+
+            var result = _productService.GetProductDetails();
             if (result.Success)
             {
                 return Ok(result);
